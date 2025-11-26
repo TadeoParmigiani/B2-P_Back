@@ -10,7 +10,12 @@ const userSchema = new Schema({
     type: String, 
     enum: ["admin", "jugador"],
     default: "jugador" 
-  }
+  },
+  firebaseUid: {
+      type: String,
+      required: false,
+      unique: true
+    }
 }, 
 { 
     timestamps: true 

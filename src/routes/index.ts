@@ -1,13 +1,11 @@
 import express from 'express';
 
 // import user from './user';
-// import post from './post';
-// import user from './user';
-// import post from './post';
+import fields from './fields';
 
 const router = express.Router();
 
 // router.use('/user', user);
-// router.use('/post', post);
+router.use('/fields', fields);
 
 export default router;
