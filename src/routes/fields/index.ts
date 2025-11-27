@@ -6,9 +6,9 @@ import { createFieldValidationSchema } from '../fields/validations';
 const router = express.Router();
 
 router.post("/", validationMiddleware(createFieldValidationSchema),fieldController.createField);           // POST /api/fields
-router.get("/", fieldController.getAllFields);           // GET /api/fields
-router.get("/:id", fieldController.getFieldById);        // GET /api/fields/:id
-router.patch("/:id", fieldController.updateField);         // PATCH /api/fields/:id
+router.get("/", fieldController.getAllFields);           
+router.get("/:id", fieldController.getFieldById);        
+router.patch("/:id", fieldController.updateField);        
 router.delete('/hard/:id', fieldController.hardDeleteField);
 router.patch('/soft/:id', fieldController.softDeleteField);
 
