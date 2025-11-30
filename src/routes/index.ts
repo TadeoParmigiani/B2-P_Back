@@ -3,10 +3,11 @@ import express from 'express';
 // import user from './user';
 import fields from './fields';
 import schedules from './schedules';
+import user from './user';
 
 const router = express.Router();
 
-// router.use('/user', user);
+router.use('/user', user);
 router.use('/fields', fields);
 router.use('/schedules', schedules);
 
