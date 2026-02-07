@@ -3,7 +3,7 @@ import Field from '../../models/fields';
 
 const createField = async (req: Request, res: Response) => {
   try {
-    const { name, type, pricePerHour } = req.body;
+    const { name, type, pricePerHour, description } = req.body;
 
     const validTypes = ["CANCHA 5", "CANCHA 7", "CANCHA 11"];
     if (!validTypes.includes(type)) {
@@ -13,7 +13,7 @@ const createField = async (req: Request, res: Response) => {
       });
     }
 
-    const field = new Field({ name, type, pricePerHour });
+    const field = new Field({ name, type, pricePerHour, description });
     await field.save();
 
     res.status(201).json({
@@ -75,7 +75,7 @@ const getFieldById = async (req: Request, res: Response) => {
 const updateField = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, type, pricePerHour } = req.body;
+    const { name, type, pricePerHour, description } = req.body;
 
     
     if (type) {
@@ -90,7 +90,7 @@ const updateField = async (req: Request, res: Response) => {
 
     const field = await Field.findByIdAndUpdate(
       id, 
-      { name, type, pricePerHour }, 
+      { name, type, pricePerHour, description }, 
       { new: true }
     );
     

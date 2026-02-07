@@ -32,10 +32,22 @@ export const createFieldValidationSchema = Joi.object({
       'number.base': 'Price per hour must be a number',
       'number.positive': 'Price per hour must be a positive number',
       'any.required': 'Price per hour is required'
-    })
+    }),
+    description: Joi.string()
+    .required()
+    .trim()
+    .min(3)
+    .max(100)
+    .messages({
+      'string.base': 'Description must be a string',
+      'string.empty': 'Description is required',
+      'string.min': 'Description must be at least 3 characters long',
+      'string.max': 'Description must not exceed 100 characters',
+      'any.required': 'Description is required'
+    }),
 });
 
-// Esquema de validación para actualizar un campo (todos los campos opcionales)
+// Esquema de validación para actualizar un campo 
 export const updateFieldValidationSchema = Joi.object({
   name: Joi.string()
     .trim()

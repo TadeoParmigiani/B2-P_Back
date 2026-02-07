@@ -18,6 +18,10 @@ const fieldSchema = new Schema({
     type: Boolean,
     default: true
     },
+  description: {
+    type: String,
+    required: true
+    },
 }, 
 { 
     timestamps: true 
