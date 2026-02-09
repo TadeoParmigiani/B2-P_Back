@@ -33,7 +33,8 @@ export const createFieldValidationSchema = Joi.object({
       'number.positive': 'Price per hour must be a positive number',
       'any.required': 'Price per hour is required'
     }),
-    description: Joi.string()
+
+  description: Joi.string()
     .required()
     .trim()
     .min(3)
@@ -45,6 +46,8 @@ export const createFieldValidationSchema = Joi.object({
       'string.max': 'Description must not exceed 100 characters',
       'any.required': 'Description is required'
     }),
+
+  isActive: Joi.boolean().optional()
 });
 
 // Esquema de validación para actualizar un campo 
@@ -72,20 +75,19 @@ export const updateFieldValidationSchema = Joi.object({
     .messages({
       'number.base': 'Price per hour must be a number',
       'number.positive': 'Price per hour must be a positive number'
-    })
+    }),
+
+  description: Joi.string()
+    .trim()
+    .min(3)
+    .max(100)
+    .messages({
+      'string.base': 'Description must be a string',
+      'string.min': 'Description must be at least 3 characters long',
+      'string.max': 'Description must not exceed 100 characters'
+    }),
+
+  isActive: Joi.boolean().optional()
 }).min(1).messages({
   'object.min': 'At least one field must be provided for update'
-});
-
-// Esquema de validación para query params (filtros)
-export const fieldQueryValidationSchema = Joi.object({
-  name: Joi.string()
-    .trim()
-    .min(1)
-    .max(100)
-    .optional(),
-
-  type: Joi.string()
-    .valid('CANCHA 5', 'CANCHA 7', 'CANCHA 11')
-    .optional()
 });
