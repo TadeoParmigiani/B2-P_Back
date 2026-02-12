@@ -36,6 +36,13 @@ export const createBookingValidationSchema = Joi.object({
       'any.required': 'Player name is required'
     }),
 
+  bookingDate: Joi.date()
+    .required()
+    .messages({
+      'date.base': 'Booking date must be a valid date',
+      'any.required': 'Booking date is required'
+    }),
+
   tel: Joi.string()
     .trim()
     .pattern(/^[0-9+\-\s()]+$/)
@@ -77,6 +84,11 @@ export const updateBookingValidationSchema = Joi.object({
       'string.base': 'Player name must be a string',
       'string.min': 'Player name must be at least 2 characters long',
       'string.max': 'Player name must not exceed 100 characters'
+    }),
+
+  bookingDate: Joi.date()
+    .messages({
+      'date.base': 'Booking date must be a valid date'
     }),
 
   tel: Joi.string()

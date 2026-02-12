@@ -3,9 +3,9 @@ import Booking from '../../models/bookings';
 
 const createBooking = async (req: Request, res: Response) => {
   try {
-    const { field, schedule, playerName, tel } = req.body;
+    const { field, schedule, playerName, tel, bookingDate } = req.body;
 
-    const booking = new Booking({ field, schedule, playerName, tel });
+    const booking = new Booking({ field, schedule, playerName, tel, bookingDate });
     await booking.save();
 
     res.status(201).json({
@@ -76,11 +76,11 @@ const getBookingById = async (req: Request, res: Response) => {
 const updateBooking = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { field, schedule, playerName, tel } = req.body;
+    const { field, schedule, playerName, tel, bookingDate } = req.body;
 
     const booking = await Booking.findByIdAndUpdate(
       id, 
-      { field, schedule, playerName, tel }, 
+      { field, schedule, playerName, tel, bookingDate }, 
       { new: true }
     ).populate('field').populate('schedule');
     
