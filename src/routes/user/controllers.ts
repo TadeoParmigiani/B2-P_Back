@@ -8,7 +8,7 @@ const registerUser = async (req: Request, res: Response) => {
     const { email, name, lastName, password, role } = req.body;
     
     // Validar que vengan todos los datos necesarios
-    if (!email || !name || !lastName || !password) {
+    if (!email || !name || !lastName || !password || !role) {
       return res.status(400).json({ 
         message: "Faltan datos requeridos" 
       });

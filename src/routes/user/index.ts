@@ -14,7 +14,6 @@ router.post('/login', controllers.loginWithEmailPassword);
 router.get('/firebase/:firebaseUid', controllers.getUserByFirebaseUid);
 
 // GET /api/user/me
-// router.get('/me', authenticate, controllers.getCurrentUser); // Con autenticación
-router.get('/me', controllers.getCurrentUser); // Sin autenticación por ahora
+router.get('/me', controllers.getCurrentUser); 
 
 export default router;
