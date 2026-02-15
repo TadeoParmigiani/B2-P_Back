@@ -7,14 +7,12 @@ const registerUser = async (req: Request, res: Response) => {
   try {
     const { email, name, lastName, password, role } = req.body;
     
-    // Validar que vengan todos los datos necesarios
     if (!email || !name || !lastName || !password || !role) {
       return res.status(400).json({ 
         message: "Faltan datos requeridos" 
       });
     }
     
-    // Verificar si ya existe un usuario con ese email en la DB
     const existingEmail = await User.findOne({ email });
     if (existingEmail) {
       return res.status(409).json({  
@@ -22,25 +20,24 @@ const registerUser = async (req: Request, res: Response) => {
       });
     }
     
-    // 1. Crear usuario en Firebase Authentication
+    // Crear usuario en Firebase Authentication
     const userRecord = await admin.auth().createUser({
       email,
       password,
       displayName: `${name} ${lastName}`
     });
     
-    // 2. Crear usuario en la base de datos con el firebaseUid generado
+    // Crear usuario en la base de datos con el firebaseUid generado
     const user = new User({
       name,
       lastName,
       email,
-      role: role || 'jugador', // Por defecto 'jugador', o el role que venga en el body
+      role: role || 'jugador',
       firebaseUid: userRecord.uid
     });
     
     await user.save();
     
-    // Retornar el formato que espera el frontend
     res.status(201).json({
       id: user._id.toString(),
       name: user.name,
@@ -59,7 +56,6 @@ const registerUser = async (req: Request, res: Response) => {
       }
     }
     
-    // Manejar errores específicos de Firebase
     if (error.code === 'auth/email-already-exists') {
       return res.status(409).json({ 
         message: "El email ya está registrado en Firebase" 
@@ -112,11 +108,9 @@ const loginWithEmailPassword = async (req: Request, res: Response) => {
   }
 };
 
-// Obtener usuario por Firebase UID
 const getUserByFirebaseUid = async (req: Request, res: Response) => {
   try {
     const { firebaseUid } = req.params;
-    
     const user = await User.findOne({ firebaseUid });
     
     if (!user) {
@@ -139,7 +133,6 @@ const getUserByFirebaseUid = async (req: Request, res: Response) => {
   }
 };
 
-// Obtener usuario actual
 const getCurrentUser = async (req: Request, res: Response) => {
   try {
     const { firebaseUid } = req.query;
@@ -170,9 +163,43 @@ const getCurrentUser = async (req: Request, res: Response) => {
   }
 };
 
+const verifyAdmin = async (req: Request, res: Response) => {
+  try {
+    // Obtener el userId del middleware authenticateFirebase
+    const userId = (req as any).userId;
+    
+    if (!userId) {
+      return res.status(401).json({ 
+        message: 'No autenticado',
+        debug: 'No se encontró userId en el request'
+      });
+    }
+    
+    const user = await User.findOne({ firebaseUid: userId });
+    
+    if (!user) {
+      return res.status(404).json({ 
+        message: 'Usuario no encontrado',
+        debug: `Buscando firebaseUid: ${userId}`
+      });
+    }
+    
+    res.json({
+      isAdmin: user.role === 'admin',
+      role: user.role
+    });
+  } catch (error: any) {
+    res.status(500).json({ 
+      message: "Error al verificar permisos", 
+      error: error.message 
+    });
+  }
+};
+
 export default {
   registerUser,
   loginWithEmailPassword,
   getUserByFirebaseUid,
-  getCurrentUser
+  getCurrentUser,
+  verifyAdmin
 };

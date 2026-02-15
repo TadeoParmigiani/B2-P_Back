@@ -23,7 +23,6 @@ export const authorizeAdmin = async (req: Request, res: Response, next: NextFunc
       });
     }
 
-    // Verificar que el rol sea 'admin'
     if (user.role !== 'admin') {
       return res.status(403).json({
         message: "Forbidden - Admin access required",
@@ -31,7 +30,6 @@ export const authorizeAdmin = async (req: Request, res: Response, next: NextFunc
       });
     }
 
-    // Usuario es admin, continuar
     next();
   } catch (error) {
     return res.status(500).json({

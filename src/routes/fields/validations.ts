@@ -1,6 +1,5 @@
 import Joi from 'joi';
 
-// Esquema de validación para crear un campo
 export const createFieldValidationSchema = Joi.object({
   name: Joi.string()
     .trim()
