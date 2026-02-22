@@ -28,18 +28,7 @@ const createField = async (req: Request, res: Response) => {
 
 const getAllFields = async (req: Request, res: Response) => {
   try {
-    const { name, type } = req.query;
-    let filter: any = {};
-    
-    if (name) {
-      filter.name = { $regex: name as string, $options: 'i' };
-    }
-    
-    if (type) {
-      filter.type = type as string;
-    }
-
-    const fields = await Field.find(filter);
+    const fields = await Field.find();
     res.status(200).json({
       message: "Fields fetched successfully",
       data: fields,
@@ -77,23 +66,12 @@ const updateField = async (req: Request, res: Response) => {
     const { id } = req.params;
     const { name, type, pricePerHour, description, isActive } = req.body;
 
-    
-    if (type) {
-      const validTypes = ["CANCHA 5", "CANCHA 7", "CANCHA 11"];
-      if (!validTypes.includes(type)) {
-        return res.status(400).json({
-          message: "Invalid field type. Must be one of: CANCHA 5, CANCHA 7, CANCHA 11",
-          error: true
-        });
-      }
-    }
-
     const field = await Field.findByIdAndUpdate(
       id, 
       { name, type, pricePerHour, description, isActive }, 
       { new: true }
     );
-    
+
     if (!field) {
       return res.status(404).json({ 
         message: "Field not found",

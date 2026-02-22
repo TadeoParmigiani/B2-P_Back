@@ -20,22 +20,7 @@ const createBooking = async (req: Request, res: Response) => {
 
 const getAllBookings = async (req: Request, res: Response) => {
   try {
-    const { playerName, field, schedule } = req.query;
-    let filter: any = {};
-    
-    if (playerName) {
-      filter.playerName = { $regex: playerName as string, $options: 'i' };
-    }
-    
-    if (field) {
-      filter.field = field as string;
-    }
-
-    if (schedule) {
-      filter.schedule = schedule as string;
-    }
-
-    const bookings = await Booking.find(filter)
+    const bookings = await Booking.find()
       .populate('field')
       .populate('schedule');
 
