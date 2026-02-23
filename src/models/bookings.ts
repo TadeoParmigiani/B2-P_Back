@@ -22,7 +22,12 @@ const bookingSchema = new Schema({
   tel: { 
     type: String, 
     required: true 
-    } 
+    }, 
+  playerId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    default: null
+  }
 }, 
 { 
     timestamps: true 

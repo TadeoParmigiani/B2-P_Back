@@ -3,9 +3,9 @@ import Booking from '../../models/bookings';
 
 const createBooking = async (req: Request, res: Response) => {
   try {
-    const { field, schedule, playerName, tel, bookingDate } = req.body;
+    const { field, schedule, playerName, tel, bookingDate, playerId } = req.body;
 
-    const booking = new Booking({ field, schedule, playerName, tel, bookingDate });
+    const booking = new Booking({ field, schedule, playerName, tel, bookingDate, playerId });
     await booking.save();
 
     res.status(201).json({

@@ -5,14 +5,6 @@ const createField = async (req: Request, res: Response) => {
   try {
     const { name, type, pricePerHour, description, isActive } = req.body;
 
-    const validTypes = ["CANCHA 5", "CANCHA 7", "CANCHA 11"];
-    if (!validTypes.includes(type)) {
-      return res.status(400).json({
-        message: "Invalid field type. Must be one of: CANCHA 5, CANCHA 7, CANCHA 11",
-        error: true
-      });
-    }
-
     const field = new Field({ name, type, pricePerHour, description, isActive });
     await field.save();
 
