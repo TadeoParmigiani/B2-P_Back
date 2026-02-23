@@ -18,7 +18,7 @@ const scheduleSchema = new Schema({
   available: { 
     type: Boolean, 
     default: true 
-  }
+  },
 }, 
 { 
   timestamps: true 

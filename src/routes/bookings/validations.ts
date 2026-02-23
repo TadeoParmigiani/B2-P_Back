@@ -11,6 +11,13 @@ export const createBookingValidationSchema = Joi.object({
       'string.pattern.base': 'Field must be a valid MongoDB ObjectId',
       'any.required': 'Field is required'
     }),
+playerId: Joi.string()
+  .trim()
+  .allow(null)
+  .messages({
+    'string.base': 'PlayerId must be a string',
+    'any.allow': 'PlayerId can be null'
+  }),
 
   schedule: Joi.string()
     .trim()

@@ -49,7 +49,6 @@ export const createFieldValidationSchema = Joi.object({
   isActive: Joi.boolean().optional()
 });
 
-// Esquema de validación para actualizar un campo 
 export const updateFieldValidationSchema = Joi.object({
   name: Joi.string()
     .trim()

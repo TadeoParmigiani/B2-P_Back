@@ -55,29 +55,6 @@ const registerUser = async (req: Request, res: Response) => {
         console.error('Error al eliminar usuario de Firebase:', deleteError);
       }
     }
-    
-    if (error.code === 'auth/email-already-exists') {
-      return res.status(409).json({ 
-        message: "El email ya está registrado en Firebase" 
-      });
-    }
-    
-    if (error.code === 'auth/invalid-email') {
-      return res.status(400).json({ 
-        message: "Email inválido" 
-      });
-    }
-    
-    if (error.code === 'auth/weak-password') {
-      return res.status(400).json({ 
-        message: "La contraseña debe tener al menos 6 caracteres" 
-      });
-    }
-    
-    res.status(500).json({ 
-      message: "Error al registrar usuario", 
-      error: error.message 
-    });
   }
 };
 
@@ -112,36 +89,6 @@ const getUserByFirebaseUid = async (req: Request, res: Response) => {
   try {
     const { firebaseUid } = req.params;
     const user = await User.findOne({ firebaseUid });
-    
-    if (!user) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
-    }
-    
-    res.json({
-      id: user._id.toString(),
-      name: user.name,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-      firebaseUid: user.firebaseUid
-    });
-  } catch (error: any) {
-    res.status(500).json({ 
-      message: "Error al obtener usuario", 
-      error: error.message 
-    });
-  }
-};
-
-const getCurrentUser = async (req: Request, res: Response) => {
-  try {
-    const { firebaseUid } = req.query;
-    
-    if (!firebaseUid) {
-      return res.status(400).json({ message: 'firebaseUid es requerido' });
-    }
-    
-    const user = await User.findOne({ firebaseUid: firebaseUid as string });
     
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -200,6 +147,5 @@ export default {
   registerUser,
   loginWithEmailPassword,
   getUserByFirebaseUid,
-  getCurrentUser,
   verifyAdmin
 };
